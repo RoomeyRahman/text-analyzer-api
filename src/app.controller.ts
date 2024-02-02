@@ -14,4 +14,29 @@ export class AppController {
   analyze(@Query() query) {
     return this.appService.analyze(query.text);
   }
+
+  @Get('count/words')
+  wordCount(@Query() query) {
+    return this.appService.countWord(query.text);
+  }
+
+  @Get('count/characters')
+  countCharacter(@Query() query) {
+    return this.appService.countCharacter(query.text);
+  }
+
+  @Get('count/paragraphs')
+  countParagraph(@Query() query) {
+    return this.appService.countParagraph(query.text);
+  }
+
+  @Get('count/sentences')
+  countSentence(@Query() query) {
+    return this.appService.countSentence(query.text);
+  }
+
+  @Get('longestwords')
+  findLongestWords(@Query() query) {
+    return this.appService.findLongestWords(query.text);
+  }
 }

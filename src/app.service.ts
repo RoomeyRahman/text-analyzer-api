@@ -44,4 +44,36 @@ export class AppService {
       throw new HttpException(err, err.status || HttpStatus.BAD_REQUEST);
     }
   }
+  
+  countWord(text) {
+    try {
+      return text.trim().split(/\s+/).filter(Boolean).length;
+    } catch (err) {
+      throw new HttpException(err, err.status || HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  countCharacter(text) {
+    try {
+      return text.trim().length;
+    } catch (err) {
+      throw new HttpException(err, err.status || HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  countParagraph(text) {
+    try {
+      return text.trim().split(/\n\s*\n/).filter(Boolean).length;
+    } catch (err) {
+      throw new HttpException(err, err.status || HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  countSentence(text) {
+    try {
+      return (text.match(/[.!?]+/g) || []).length;
+    } catch (err) {
+      throw new HttpException(err, err.status || HttpStatus.BAD_REQUEST);
+    }
+  }
 }
