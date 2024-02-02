@@ -1,8 +1,10 @@
 import {
-  Injectable, 
+  Injectable,
   HttpStatus,
   HttpException,
 } from '@nestjs/common';
+import * as fs from 'fs';
+import * as pdf from 'pdf-parse';
 
 @Injectable()
 export class AppService {
@@ -44,7 +46,7 @@ export class AppService {
       throw new HttpException(err, err.status || HttpStatus.BAD_REQUEST);
     }
   }
-  
+
   countWord(text) {
     try {
       return text.trim().split(/\s+/).filter(Boolean).length;
@@ -76,4 +78,24 @@ export class AppService {
       throw new HttpException(err, err.status || HttpStatus.BAD_REQUEST);
     }
   }
+
+  async analyzeFile(file) {
+    try {
+      const { buffer, originalname, mimetype } = file;
+      if (mimetype == 'application/pdf') {
+        const content = await pdf(buffer);
+        return this.analyze(content.text);
+      }
+      else if (mimetype == 'text/plain') {
+        const content = buffer.toString('utf8');
+        return this.analyze(content);
+      }
+      else {
+        return 'invalid file'
+      }
+    } catch (err) {
+      throw new HttpException(err, err.status || HttpStatus.BAD_REQUEST);
+    }
+  }
+
 }
